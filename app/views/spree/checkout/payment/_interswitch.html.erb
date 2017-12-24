@@ -1,3 +1,17 @@
-<%= link_to(image_tag("https://www.interswitch.com/media/images/logo.gif"), interswitch_proceed_url(:payment_method_id => payment_method.id), :method => :post, :id => "interswitch_button") %>
-
 <% param_prefix = "payment_source[#{payment_method.id}]" %>
+<script>
+  $(document).ready(function() {
+   
+    $("#checkout_form_payment").submit(function(e){
+        e.preventDefault();
+        var value = $('input[name="order[payments_attributes][][payment_method_id]"]:checked').val();
+        if(value == '<%=payment_method.id%>'){
+            window.location.href='<%= interswitch_proceed_url(:payment_method_id => payment_method.id) %>';
+        }else{
+            
+        }
+        
+        $('#checkout_form_payment').submit();
+    });
+  });
+</script>

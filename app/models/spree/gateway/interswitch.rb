@@ -1,12 +1,13 @@
 require "offsite_payments"
 module Spree
   class Gateway::Interswitch < Gateway
-    preference :merchant_id, :string
-    preference :secret_key, :string
+    preference :merchant_code, :string
+    preference :test_gateway_id, :string
+    preference :live_gateway_id, :string
 
       
     def provider_class
-      ::OffsitePayments.integration('Payu_In')
+      ::OffsitePayments.integration('Interswitch')
     end
 
     def provider
@@ -15,9 +16,17 @@ module Spree
       provider_class
     end
 
-    def checksum(items)
-      provider_class.checksum(preferred_merchant_id, preferred_secret_key, items)
-    end    
+    def gateway_id
+      #assign payment mode
+      preferred_test_mode == true ? preferred_test_gateway_id : preferred_live_gateway_id
+    end
+    def frontend_script
+      preferred_test_mode == true ? 'https://sanbox.interswitchgroup.com/paymentgateway/public/js/webpay.js' : 'https://www.interswitchgroup.com/paymentgateway/public/js/webpay.js'
+    end
+
+    def verify_endpoint
+      preferred_test_mode == true ? 'https://sandbox.interswitchng.com/collections/api/v1/gettransaction.json?' : 'https://webpay.interswitchng.com/collections/api/v1/gettransaction.json?'
+    end
 
     def auto_capture?
       true
@@ -48,13 +57,10 @@ module Spree
     end
 
     def service_provider
-      "payu_paisa"
+      "interswitch"
     end
 
-    def checksum_ok?(itms, pg_hash)
-      Digest::SHA512.hexdigest([preferred_secret_key, *itms, preferred_merchant_id].join("|")) == pg_hash
-    end
-
+   
     def amount_ok?(order_total, pg_amount)
       BigDecimal.new(pg_amount) == order_total
     end
