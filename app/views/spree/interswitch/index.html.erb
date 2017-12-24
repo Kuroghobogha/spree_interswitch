@@ -1,19 +1,47 @@
 
+<div  data-hook="order-payment" style="margin: auto; text-align:center; width: 50%;border: 3px solid #014c6f; padding: 10px;    border-bottom-width: 0;">
+<h4>Payment Information </h4>
+<div class="payment-info">
+  
+<span>Interswitch Payment Gateway</span>
 
-<a data-isw-payment-button data-isw-ref='<%=@gateway_id%>'> Please wait, payment button is loading...
-<script type='text/javascript' 
-src='<%=@script%>'
-data-isw-customer-ref='<%=@txnid%>'
-data-isw-customer-callback='confirmInterswitchPayment'
-data-isw-trans-amount='<%=@amount%>'> 
-</script>
-</a>
+<span class="payment-amount">(<b><%=@currency%><%=@amount.to_s.reverse.gsub(/(\d{3})/,"\\1,").chomp(",").reverse %></b>)</span>
+
+<br>
+
+</div>
+</div>
+<div style="margin: auto;width: 50%;border: 3px solid #014c6f; padding: 10px;">
+
+
+<% if (!@gateway_id ||  @merchant_code == '' ||  @merchant_code.nil?)   %> 
+<p style='color:red'>Interswitch Merchant Code not set. Check your Interswitch payment gateway settings.</p>
+
+<% elsif (!@gateway_id  ||  @gateway_id == '' || @gateway_id.nil?)  %> 
+<p style='color:red'> Interswitch <%= @gateway_mode %> Gateway ID not set. Check your Interswitch payment gateway settings.</p>
+
+<% else %> 
+
+<div style="margin: auto;width: 30%;">
+
+
+    <a data-isw-payment-button data-isw-ref='<%=@gateway_id%>' > Please wait, payment button is loading...
+        <script type='text/javascript' 
+        src='<%=@script%>'
+        data-isw-customer-ref='<%=@txnid%>'
+        data-isw-customer-callback='confirmInterswitchPayment'
+        data-isw-trans-amount='<%=@amount%>'> 
+        </script>
+    </a>
+</div>
 <script>
-function confirmInterswitchPayment(response){ 
-if(response.resp == '00'){
-    window.location.href='<%=@surl%>';
-}else{
-    alert(response.desc);
-}
-}
-</script>
+    function confirmInterswitchPayment(response){ 
+    if(response.resp == '00'){
+        window.location.href='<%=@surl%>';
+    }else{
+        alert(response.desc);
+    }
+    }
+</script>   
+<% end %> 
+</div>

@@ -7,11 +7,10 @@ module Spree
 
       
     def provider_class
-      ::OffsitePayments.integration('Interswitch')
+      ::OffsitePayments.integration('Payu_In')
     end
 
     def provider
-      #assign payment mode
       OffsitePayments.mode = preferred_test_mode == true ? :test : :production
       provider_class
     end
@@ -19,6 +18,9 @@ module Spree
     def gateway_id
       #assign payment mode
       preferred_test_mode == true ? preferred_test_gateway_id : preferred_live_gateway_id
+    end
+    def gateway_mode
+      preferred_test_mode == true ? 'Test' : 'Live'
     end
     def frontend_script
       preferred_test_mode == true ? 'https://sanbox.interswitchgroup.com/paymentgateway/public/js/webpay.js' : 'https://www.interswitchgroup.com/paymentgateway/public/js/webpay.js'
@@ -60,7 +62,6 @@ module Spree
       "interswitch"
     end
 
-   
     def amount_ok?(order_total, pg_amount)
       BigDecimal.new(pg_amount) == order_total
     end
