@@ -1,0 +1,29 @@
+
+<h4>Processing ...</h4>
+    <form id="checkout_form" name="checkout_form" method="post" action="<%=@service_url%>">	
+        <input type="hidden" name="key" value="<%=@merchant_key%>"> 
+        <input type="hidden" name="txnid" value="<%=@txnid%>">
+        <input type="hidden" name="amount" value="<%=@amount%>">		
+        <input type="hidden" name="productinfo" value="<%=@productinfo%>">
+        <input type="hidden" name="firstname" value="<%=@firstname%>">
+        <input type="hidden" name="email" value="<%=@email%>">
+        <input type="hidden" name="udf1" value="<%=@lastname%>">	
+        <input type="hidden" name="udf2" value="<%=@phone%>">
+        <input type="hidden" name="udf3" value="<%=@city%>">
+        <input type="hidden" name="udf4" value="<%=@payment_method_id%>">
+        <input type="hidden" name="phone" value="<%=@phone%>">
+        <input type="hidden" name="surl" value="<%=@surl%>">
+        <input type="hidden" name="furl" value="<%=@furl%>">		        
+        <input type="hidden" name="hash" value="<%=@checksum%>">	
+        <input type="hidden" name="service_provider" value="<%=@service_provider%>">
+       ISW FORM OOOOOOO
+    </form>
+    
+    <script type="text/javascript">        
+        // self executing function here
+        (function() {
+           // your page initialization code here
+           // the DOM will be available here
+            // document.getElementById("checkout_form").submit();
+        })();
+    </script>
