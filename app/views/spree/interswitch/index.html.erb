@@ -5,7 +5,7 @@
   
 <span>Interswitch Payment Gateway</span>
 
-<span class="payment-amount">(<b><%=@currency%><%=@amount.to_s.reverse.gsub(/(\d{3})/,"\\1,").chomp(",").reverse %></b>)</span>
+<span class="payment-amount">(<b><%=@currency%><%=@checkout_amount.to_s.reverse.gsub(/(\d{3})/,"\\1,").chomp(",").reverse %></b>)</span>
 
 <br>
 

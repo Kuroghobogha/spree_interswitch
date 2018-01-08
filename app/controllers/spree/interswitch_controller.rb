@@ -20,6 +20,7 @@ module Spree
 
       @txnid = payment_method.txnid(current_order)
       @amount = current_order.total * 100
+      @checkout_amount = current_order.total
       @email = current_order.email
       @currency = current_order.currency
       
